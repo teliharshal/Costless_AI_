@@ -3,11 +3,9 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
 ## Environment variables ##
 node_modules/
 .idea/
-
 server/src/main/resources/application.properties
 .env
 server/src/main/resources/application-example.properties

@@ -18,7 +18,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/auth/**",
                                 "/api/users/**",
-                                "/api/prompt/**"
+                                "/api/prompts/**"
                         ).permitAll()
 
                         .anyRequest().authenticated()

@@ -2,23 +2,26 @@ package com.example.server.controller;
 
 import com.example.server.dto.PromptRequestDto;
 import com.example.server.dto.PromptResponse;
-import com.example.server.services.PromptOptimizerService;
+import com.example.server.services.GroqService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/prompt")
+@RequestMapping("/api/prompts")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class PromptController {
 
-    private final PromptOptimizerService promptOptimizerService;
+    private final GroqService groqService;
 
     @PostMapping("/optimize")
-    public PromptResponse optimize(
-            @RequestBody PromptRequestDto request
-            ){
-        return promptOptimizerService
-                .optimizePrompt(request.getPrompt());
+    public ResponseEntity<PromptResponse> optimizePrompt(
+            @RequestBody PromptRequestDto request) {
+
+        PromptResponse response =
+                groqService.optimizePrompt(request.getPrompt());
+
+        return ResponseEntity.ok(response);
     }
 }

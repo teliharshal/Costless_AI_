@@ -1,69 +1,50 @@
 import { useState } from "react";
+import StatsCard from "../components/StatsCard";
+import PromptForm from "../components/PromptForm";
+import PromptResult from "../components/PromptResult";
 
 function Dashboard() {
 
-  const [prompt, setPrompt] = useState("");
-
   const [result, setResult] = useState(null);
 
-  const optimizePrompt = async () => {
-
-    const response = await fetch(
-      "http://localhost:8080/api/prompts/optimize",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          prompt
-        })
-      }
-    );
-
-    const data = await response.json();
-
-    setResult(data);
-  };
-
   return (
-    <div className="min-h-screen bg-black text-white p-10">
+    <div className="min-h-screen bg-zinc-950 text-white p-8">
 
-      <h1 className="text-4xl font-bold mb-10">
+      <h1 className="text-4xl font-bold mb-8">
         CostLess AI Dashboard
       </h1>
 
-      <textarea
-        placeholder="Enter your prompt..."
-        className="w-full h-40 bg-zinc-900 p-4 rounded-xl"
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-      />
+      <div className="grid md:grid-cols-4 gap-4 mb-8">
 
-      <button
-        onClick={optimizePrompt}
-        className="mt-5 bg-green-500 px-6 py-3 rounded-xl"
-      >
-        Optimize Prompt
-      </button>
+        <StatsCard
+          title="Tokens Saved"
+          value={result ?
+            result.originalTokens -
+            result.optimizedTokens : 0}
+        />
 
-      {
-        result && (
-          <div className="mt-10 bg-zinc-900 p-6 rounded-xl">
+        <StatsCard
+          title="Estimated Savings"
+          value={`$${result?.estimatedSavings || 0}`}
+        />
 
-            <h2 className="text-2xl mb-4">
-              Optimized Prompt
-            </h2>
+        <StatsCard
+          title="Original Tokens"
+          value={result?.originalTokens || 0}
+        />
 
-            <p>{result.optimizedPrompt}</p>
+        <StatsCard
+          title="Optimized Tokens"
+          value={result?.optimizedTokens || 0}
+        />
 
-            <div className="mt-5">
-              Tokens Saved: {result.tokensSaved}
-            </div>
+      </div>
 
-          </div>
-        )
-      }
+      <PromptForm setResult={setResult} />
+
+      {result && (
+        <PromptResult result={result} />
+      )}
 
     </div>
   );
