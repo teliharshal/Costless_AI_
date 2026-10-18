@@ -13,6 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,4 +23,5 @@ public class UserEntity {
     private String profilePicture;
     private String googleId;
     private String plan;
+
 }
